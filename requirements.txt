@@ -1,0 +1,6 @@
+flask==3.0.2
+flask-cors==4.0.0
+PyGithub==1.59.1
+openai==0.28.1
+python-dotenv==1.0.1
+requests==2.31.0 

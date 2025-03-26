@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Issue Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>GitHub Issue Analyzer</h1>
+    <div class="github-analyzer">
+      <div class="input-group">
+        <input type="text" id="issueNumber" placeholder="Enter GitHub Issue Number" class="issue-input">
+        <button onclick="analyzeIssue()" class="analyze-button">Analyze Issue</button>
+      </div>
+      <div id="analysisResult" class="analysis-result">
+        <!-- Results will be displayed here -->
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
