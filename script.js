@@ -18,40 +18,67 @@ function changeBackgroundColor() {
 
 async function analyzeIssue() {
     const issueNumber = document.getElementById('issueNumber').value;
-    const resultDiv = document.getElementById('analysisResult');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
     
     if (!issueNumber) {
-        resultDiv.innerHTML = '<div class="error">Please enter an issue number</div>';
-        resultDiv.classList.add('visible');
+        result.innerHTML = '<div class="error">Please enter an issue number</div>';
         return;
     }
 
-    try {
-        resultDiv.innerHTML = '<p>Analyzing issue...</p>';
-        resultDiv.classList.add('visible');
+    loading.style.display = 'block';
+    result.innerHTML = '';
 
+    try {
         const response = await fetch(`/analyze/${issueNumber}`);
         const data = await response.json();
 
-        if (data.error) {
-            resultDiv.innerHTML = `<div class="error">${data.error}</div>`;
-            return;
+        if (response.ok) {
+            result.innerHTML = `
+                <div class="section">
+                    <h2>Issue Summary</h2>
+                    <p>${data.summary}</p>
+                </div>
+                <div class="section">
+                    <h2>Analysis</h2>
+                    <p><strong>Sentiment:</strong> <span class="sentiment-${data.sentiment.toLowerCase()}">${data.sentiment}</span></p>
+                    <p><strong>Priority:</strong> <span class="priority-${data.priority.toLowerCase()}">${data.priority}</span></p>
+                </div>
+                <div class="section">
+                    <h2>Suggested Actions</h2>
+                    <ul>
+                        ${data.suggested_actions.map(action => `<li>${action}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="section">
+                    <h2>Improvement Suggestions</h2>
+                    <ul>
+                        ${data.improvement_suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="section">
+                    <h2>Key Points</h2>
+                    <ul>
+                        ${data.key_points.map(point => `<li>${point}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        } else {
+            result.innerHTML = `<div class="error">${data.error || 'Failed to analyze issue'}</div>`;
         }
-
-        resultDiv.innerHTML = `
-            <h2>Analysis Results</h2>
-            <p><strong>Title:</strong> ${data.title}</p>
-            <p><strong>Sentiment:</strong> ${data.sentiment}</p>
-            <p><strong>Summary:</strong> ${data.summary}</p>
-            <p><strong>Key Points:</strong></p>
-            <ul>
-                ${data.key_points.map(point => `<li>${point}</li>`).join('')}
-            </ul>
-        `;
     } catch (error) {
-        resultDiv.innerHTML = `<div class="error">Error analyzing issue: ${error.message}</div>`;
+        result.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    } finally {
+        loading.style.display = 'none';
     }
 }
+
+// Add event listener for Enter key
+document.getElementById('issueNumber').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        analyzeIssue();
+    }
+});
 
 function displayAnalysisResult(data) {
     const resultDiv = document.getElementById('analysisResult');
