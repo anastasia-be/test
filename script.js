@@ -37,29 +37,29 @@ async function analyzeIssue() {
             result.innerHTML = `
                 <div class="section">
                     <h2>Issue Summary</h2>
-                    <p>${data.summary}</p>
+                    <p>${data.summary || 'No summary available'}</p>
                 </div>
                 <div class="section">
                     <h2>Analysis</h2>
-                    <p><strong>Sentiment:</strong> <span class="sentiment-${data.sentiment.toLowerCase()}">${data.sentiment}</span></p>
-                    <p><strong>Priority:</strong> <span class="priority-${data.priority.toLowerCase()}">${data.priority}</span></p>
+                    <p><strong>Sentiment:</strong> <span class="sentiment-${(data.sentiment || 'neutral').toLowerCase()}">${data.sentiment || 'Neutral'}</span></p>
+                    <p><strong>Priority:</strong> <span class="priority-${(data.priority || 'medium').toLowerCase()}">${data.priority || 'Medium'}</span></p>
                 </div>
                 <div class="section">
                     <h2>Suggested Actions</h2>
                     <ul>
-                        ${data.suggested_actions.map(action => `<li>${action}</li>`).join('')}
+                        ${(data.suggested_actions || []).map(action => `<li>${action}</li>`).join('') || '<li>No suggested actions available</li>'}
                     </ul>
                 </div>
                 <div class="section">
                     <h2>Improvement Suggestions</h2>
                     <ul>
-                        ${data.improvement_suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+                        ${(data.improvement_suggestions || []).map(suggestion => `<li>${suggestion}</li>`).join('') || '<li>No improvement suggestions available</li>'}
                     </ul>
                 </div>
                 <div class="section">
                     <h2>Key Points</h2>
                     <ul>
-                        ${data.key_points.map(point => `<li>${point}</li>`).join('')}
+                        ${(data.key_points || []).map(point => `<li>${point}</li>`).join('') || '<li>No key points available</li>'}
                     </ul>
                 </div>
             `;
