@@ -1,61 +1,79 @@
 # GitHub Issue Analyzer
 
-This application analyzes GitHub issues using OpenAI's GPT model to provide insights and suggestions.
+A web application that analyzes GitHub issues from the ESP-IDF repository, providing insights about issue sentiment, priority, and suggested actions.
+
+## Prerequisites
+
+- Python 3.8 or higher
+- pip (Python package installer)
+- Git
 
 ## Setup Instructions
 
 1. Clone the repository:
 ```bash
-git clone <your-repository-url>
-cd <repository-name>
+git clone https://github.com/anastasia-be/test.git
+cd test
 ```
 
 2. Create and activate a virtual environment:
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
 ```
 
-3. Install dependencies:
+3. Install required packages:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Set up environment variables:
-   - Copy `.env.example` to `.env`:
-     ```bash
-     cp .env.example .env
-     ```
-   - Edit `.env` and add your API keys:
-     - Get an OpenAI API key from: https://platform.openai.com/api-keys
-     - Get a GitHub token from: https://github.com/settings/tokens
-     - Add them to the `.env` file:
-       ```
-       OPENAI_API_KEY=your-openai-key-here
-       GITHUB_TOKEN=your-github-token-here
-       ```
+4. Set up your GitHub API token:
+   - Go to GitHub Settings -> Developer Settings -> Personal Access Tokens
+   - Generate a new token with `repo` scope
+   - Create a `.env` file in the project root and add your token:
+   ```
+   GITHUB_TOKEN=your_token_here
+   ```
 
 ## Running the Application
 
 1. Start the server:
 ```bash
-python server.py
+./start_server.sh
 ```
 
-2. Open your browser and navigate to:
+2. Open your web browser and navigate to:
 ```
-http://localhost:5001
+http://127.0.0.1:5001
 ```
 
-3. Enter a GitHub issue number to analyze (e.g., 15651)
+3. Enter an ESP-IDF issue number (e.g., 12786) and click "Analyze Issue"
 
 ## Features
 
-- Analyzes GitHub issues for sentiment and priority
-- Provides suggested actions and improvement suggestions
-- Extracts key points from issue discussions
-- Generates summaries of issue content
+- Issue details display (title, creator, creation date, status)
+- Sentiment analysis
+- Priority assessment
+- Suggested actions
+- Improvement suggestions
+- Comment analysis
+
+## Troubleshooting
+
+If you encounter any issues:
+
+1. Check the server logs in `server.log`
+2. Ensure your GitHub token is valid and has the correct permissions
+3. Make sure all required packages are installed
+4. Verify that port 5001 is not in use by another application
+
+## Stopping the Application
+
+To stop the server, run:
+```bash
+./stop_server.sh
+```
 
 ## Note
 
-Make sure to keep your `.env` file secure and never commit it to version control. The `.env.example` file is provided as a template for setting up your environment variables. 
+The application uses the GitHub API to fetch issue data. Please be mindful of API rate limits when making multiple requests. 
